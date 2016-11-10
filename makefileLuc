@@ -12,6 +12,10 @@ add:
 	curl http://localhost:5000/todo1 -d "word=was&doc=doc2" -X PUT
 	curl http://localhost:5000/todo1 -d "word=here&doc=doc1" -X PUT
 	curl http://localhost:5000/todo1 -d "word=here&doc=doc2" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc4" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc5" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc5" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc5" -X PUT
 
 
 query:
@@ -19,6 +23,7 @@ query:
 	curl http://localhost:5000/query/was
 	curl http://localhost:5000/query/not
 	curl http://localhost:5000/query/was
+	curl http://localhost:5000/query/here
 
 
 delete:

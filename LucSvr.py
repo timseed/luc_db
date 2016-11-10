@@ -20,9 +20,12 @@ class TodoSimple(Resource):
         else:
            return {word:'Not Found'}
 
-    def put(self, word,doc):
-        w= request.form['word']
-        d= request.form['doc']
+    def put(self, w,d):
+        #This data passed in from the -d on the curl command
+        #curl http://localhost:5000/todo1 -d "word=tim&doc=doc1" -X PUT
+        #
+        word= request.form['word']
+        doc = request.form['doc']
         print(str.format("method Word is <{}>\nDoc  is <{}>",word,doc))
         print(str.format("form   Word is <{}>\nDoc  is <{}>",w,d))
         conn = e.connect()
@@ -34,10 +37,10 @@ class TodoSimple(Resource):
         else:
             #Need to check if doc is already stored for word
             #Data is returned as a list of tuples
-            if doc in result[0][0].split():
+            if doc in result[0][1].split():
                return {word: str.format("<{}> already listed in <{}>",word,doc)}
             else:
-                doc=result[0][0]+' '+doc
+                doc=result[0][1]+' '+doc
                 conn.execute("update Document set file='%s' where word='%s'"%(doc,word))
                 return {word: str.format("<{}> added to doc <{}>",word,doc)}
 
@@ -62,10 +65,9 @@ class Remove(Resource):
     def delete(self, word):
         return {word:'Delete requested'} 
 
-
 api.add_resource(Index,  '/query/<string:word>')
 api.add_resource(Remove, '/delete/<string:word>')
-api.add_resource(TodoSimple, '/<string:word><string:doc>')
+api.add_resource(TodoSimple, '/<string:w><string:d>')
 
 if __name__ == '__main__':
     app.run(debug=True)
