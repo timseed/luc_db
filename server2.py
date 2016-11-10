@@ -24,7 +24,7 @@ class TodoSimple(Resource):
     def delete(self, todo_id):
         if todo_id in todos:
            del todos[todo_id]
-           return '', 204
+           return {todo_id:'Deleted'}
         else:
            return {todo_id:'Not Found'}
 

@@ -1,0 +1,25 @@
+test:
+	curl http://localhost:5000/todo1 -d "word=tim&doc=doc1" -X PUT
+	curl http://localhost:5000/todo1 -d "word=was&doc=doc2" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc1" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc2" -X PUT
+	curl http://localhost:5000/todo1 
+	curl http://localhost:5000/todo3
+	
+
+add:
+	curl http://localhost:5000/todo1 -d "word=tim&doc=doc1" -X PUT
+	curl http://localhost:5000/todo1 -d "word=was&doc=doc2" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc1" -X PUT
+	curl http://localhost:5000/todo1 -d "word=here&doc=doc2" -X PUT
+
+
+query:
+	curl http://localhost:5000/query/tim
+	curl http://localhost:5000/query/was
+	curl http://localhost:5000/query/not
+	curl http://localhost:5000/query/was
+
+
+delete:
+	curl http://localhost:5000/remove/junk -X DELETE -v
