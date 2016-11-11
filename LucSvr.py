@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
+from pprint import pprint
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,14 +21,14 @@ class TodoSimple(Resource):
         else:
            return {word:'Not Found'}
 
-    def put(self, w,d):
+    def put(self, a,b):
         #This data passed in from the -d on the curl command
         #curl http://localhost:5000/todo1 -d "word=tim&doc=doc1" -X PUT
         #
         word= request.form['word']
-        doc = request.form['doc']
+        doc= str(request.form['doc'])
         print(str.format("method Word is <{}>\nDoc  is <{}>",word,doc))
-        print(str.format("form   Word is <{}>\nDoc  is <{}>",w,d))
+        #print(str.format("form   Word is <{}>\nDoc  is <{}>",w,d))
         conn = e.connect()
         cur=conn.execute("select word,file from Document where word='%s'"%word)
         result=cur.fetchall()
@@ -37,10 +38,10 @@ class TodoSimple(Resource):
         else:
             #Need to check if doc is already stored for word
             #Data is returned as a list of tuples
-            if doc in result[0][1].split():
+            if doc in str(result[0][1]).split():
                return {word: str.format("<{}> already listed in <{}>",word,doc)}
             else:
-                doc=result[0][1]+' '+doc
+                doc=str(result[0][1])+' '+doc
                 conn.execute("update Document set file='%s' where word='%s'"%(doc,word))
                 return {word: str.format("<{}> added to doc <{}>",word,doc)}
 
@@ -67,7 +68,7 @@ class Remove(Resource):
 
 api.add_resource(Index,  '/query/<string:word>')
 api.add_resource(Remove, '/delete/<string:word>')
-api.add_resource(TodoSimple, '/<string:w><string:d>')
+api.add_resource(TodoSimple, '/<string:a><string:b>')
 
 if __name__ == '__main__':
     app.run(debug=True)
